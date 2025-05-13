@@ -8,6 +8,7 @@ import {
   TRPCIcon,
   TurborepoIcon,
   TypescriptIcon,
+  GoLangIcon
 } from '@/components/ui/icons'
 
 export const skills = [
@@ -20,6 +21,7 @@ export const skills = [
   { title: 'Tailwind CSS', Icon: TailwindCSSIcon },
   { title: 'tRPC', Icon: TRPCIcon },
   { title: 'Prisma', Icon: PrismaIcon },
+  {title : 'Golang',Icon: GoLangIcon},
 ]
 
 export const educations = [

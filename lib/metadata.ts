@@ -1,9 +1,11 @@
-import type { Metadata as NextMetadata } from 'next'
+import type { Metadata as NextMetadata } from 'next';
 
 type Metadata = Omit<NextMetadata, 'title' | 'keywords'> & {
   title: string
   keywords: string[]
 }
+
+
 
 export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const siteName = 'Ashish'
@@ -11,6 +13,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const description =
     override.description ??
     `I'm Ashish, a web developer specializing in Next.js. Passionate about creating efficient web applications and 2D enthusiast.`
+
   const {
     title: _,
     description: __,
@@ -63,7 +66,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
     },
     icons: {
       icon: '/favicon.ico',
-      shortcut: '/favicon-16x16.png',
+      shortcut: '/favicon-32x32.png',
       apple: '/apple-touch-icon.png',
     },
     alternates: {
