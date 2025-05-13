@@ -1,50 +1,79 @@
 import Image from 'next/image'
 
-const emailHash =
-  '48b8ec4ce6c85e06c11bda4381a3ac6cb8161a23e5ea540544c809063090815d'
+import left from '@/public/assets/left.png'
+import right from '@/public/assets/right.png'
 
 export const Introduction = () => (
-  <section className="container flex flex-col justify-between gap-4 md:flex-row">
-    <article className="prose text-lg">
-      <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-        Let me <span className="text-yuki">introduce</span> myself
-      </h2>
-      <p className="leading-7 text-pretty [&:not(:first-child)]:mt-6">
-        I fell in love with programming and anime and am fluent in{' '}
-        <strong className="text-yuki">Typescript </strong>and
-        <strong className="text-yuki"> Python</strong>.
-        <br /> My field of interest are building new{' '}
-        <strong className="text-yuki">web applications</strong> and also in
-        areas related to{' '}
-        <strong className="text-yuki">Artificial Intelligence</strong>.
-        <br /> Whatever possible, I try to contribute to the open-source
-        community with <strong className="text-yuki">Next.js</strong> and{' '}
-        <strong className="text-yuki">Machine Learning</strong> projects.
-      </p>
+  <section className="container mx-auto py-12">
+    <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+      {/* Main content area */}
+      <div className="flex-1 space-y-6">
+        <h2 className="text-3xl font-semibold tracking-tight">
+          Let me <span className="text-yuki">introduce</span> myself
+        </h2>
 
-      <ul className="ml-6 list-disc [&>li]:mt-2">
-        <li>
-          <strong>Name:</strong> Tran Tien
-        </li>
-        <li>
-          <strong>Date of Birth:</strong> June 22, 2004
-        </li>
-        <li>
-          <strong>Location:</strong> Ho Chi Minh city, Viet Nam
-        </li>
-        <li>
-          <strong>Languages:</strong> Vietnamese, English
-        </li>
-      </ul>
-    </article>
+        <div className="prose max-w-none text-lg">
+          <p className="leading-7 text-pretty">
+            I fell in love with programming and anime and am fluent in{' '}
+            <strong className="text-yuki">Typescript</strong> and{' '}
+            <strong className="text-yuki">Go</strong>.
+          </p>
+          <p className="leading-7 text-pretty">
+            My field of interest is building new{' '}
+            <strong className="text-yuki">web applications</strong> and
+            exploring areas related to{' '}
+            <strong className="text-yuki">New Tech</strong>.
+          </p>
+          <p className="leading-7 text-pretty">
+            Whenever possible, I contribute to the open-source community with{' '}
+            <strong className="text-yuki">Next.js</strong> and{' '}
+            <strong className="text-yuki">GoLang</strong> projects.
+          </p>
+        </div>
 
-    <Image
-      src={`https://gravatar.com/avatar/${emailHash}?s=500`}
-      alt="Avatar"
-      width={500}
-      height={500}
-      className="mx-auto aspect-square rounded-lg shadow-lg md:mx-0"
-      priority
-    />
+        {/* Personal info with left image */}
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center">
+          <div className="flex-shrink-0">
+            <Image
+              src={left}
+              alt="Profile"
+              width={180}
+              height={180}
+              className="rounded-lg object-cover shadow-lg"
+              priority
+            />
+          </div>
+
+          <div className="flex-grow">
+            <ul className="list-disc space-y-2 pl-5">
+              <li>
+                <strong>Name:</strong> Ashish Jha
+              </li>
+              <li>
+                <strong>Date of Birth:</strong> August 25, 2005
+              </li>
+              <li>
+                <strong>Location:</strong> Delhi, India
+              </li>
+              <li>
+                <strong>Languages:</strong> English, Hindi
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Right side image */}
+      <div className="flex-shrink-0 md:w-2/5 lg:w-1/3">
+        <Image
+          src={right}
+          alt="Profile"
+          width={400}
+          height={400}
+          className="w-400 rounded-lg object-cover shadow-lg"
+          priority
+        />
+      </div>
+    </div>
   </section>
 )

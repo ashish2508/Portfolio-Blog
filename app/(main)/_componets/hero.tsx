@@ -34,10 +34,10 @@ export const HeroSection: React.FC = () => (
 
       <a
         className="animate-shimmer bg-fd-background inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-md border bg-[linear-gradient(110deg,var(--color-fd-background),45%,var(--color-fd-secondary),55%,var(--color-fd-background))] bg-[length:200%_100%] px-6 text-sm font-medium whitespace-nowrap shadow-xs transition-all outline-none hover:scale-105 focus:outline-none active:scale-95 has-[>svg]:px-4"
-        href="/assets/cv.pdf"
+        href="/assets/Resume.pdf"
         download
       >
-        View my CV
+        View my Resume
       </a>
     </section>
 

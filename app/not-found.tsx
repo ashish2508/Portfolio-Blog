@@ -9,7 +9,7 @@ export default function NotFoundPage() {
         alt="Yuki"
         width={300}
         height={300}
-        className="mb-8 object-cover"
+        className="mb-8 object-cover rounded-4xl"
       />
       <h1 className="mb-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Oops! Page Not Found
