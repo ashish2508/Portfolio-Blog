@@ -29,7 +29,17 @@ export default async function Page(props: {
       <time className="text-fd-muted-foreground text-sm">
         {page.data.published.toDateString()}
       </time>
-      
+      <ul className="flex gap-2">
+        {page.data.tags.map((tag) => (
+          <li
+            key={tag}
+            className="bg-fd-primary text-fd-primary-foreground rounded-md px-2 py-1 text-xs"
+          >
+            {tag}
+          </li>
+        ))}
+      </ul>
+
       <DocsBody>
         <MDXContent
           components={{
@@ -60,6 +70,7 @@ export async function generateMetadata(props: {
   return createMetadata({
     title: page.data.title,
     description: page.data.description,
+    keywords: page.data.tags,
     openGraph: {
       url: page.url,
       images: {
