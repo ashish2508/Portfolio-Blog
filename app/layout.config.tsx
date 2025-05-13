@@ -1,9 +1,12 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
-import Image from 'next/image'
-import Link from 'next/link'
+import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import {  XIcon } from '@/components/ui/icons'
-import title from '@/public/assets/Title.png'
+
+
+import { XIcon } from '@/components/ui/icons';
+import title from '@/public/assets/Title.png';
+
 
 /**
  * Shared layout configurations
@@ -57,11 +60,13 @@ export const Footer: React.FC = () => {
         <nav className="flex items-center gap-4">
           <Link href="/">
             <Image
-              src="/assets/Title.png"
+              src={title}
               width={24}
               height={24}
               alt="Ashish Logo"
-              className="size-6 dark:invert"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 60vw"
+              className="h-13 w-auto"
+              priority
             />
             <span className="sr-only">Ashish</span>
           </Link>
