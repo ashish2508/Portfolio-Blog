@@ -1,9 +1,4 @@
 import React from 'react';
-import Image from "next/image";
-
-
-
-
 
 export const GithubIcon = (props: React.ComponentProps<'svg'>) => (
   <svg
@@ -305,4 +300,3 @@ export const GoLangIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     </svg>
   )
 }
-
