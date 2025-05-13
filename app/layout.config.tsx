@@ -2,8 +2,8 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FacebookIcon, XIcon } from '@/components/ui/icons'
-import Ashish from '@/public/assets/Ashish.svg'
+import {  XIcon } from '@/components/ui/icons'
+import title from '@/public/assets/Title.png'
 
 /**
  * Shared layout configurations
@@ -16,7 +16,7 @@ export const baseOptions: BaseLayoutProps = {
   nav: {
     title: (
       <Image
-        src={Ashish}
+        src={title}
         alt="Logo"
         sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 60vw"
         className="h-13 w-auto"

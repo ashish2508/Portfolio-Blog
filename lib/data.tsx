@@ -8,7 +8,6 @@ import {
   TRPCIcon,
   TurborepoIcon,
   TypescriptIcon,
-  GoLangIcoon,
 } from '@/components/ui/icons'
 
 export const skills = [

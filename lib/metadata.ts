@@ -10,7 +10,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
   const title = override.title ? `${override.title} | ${siteName}` : siteName
   const description =
     override.description ??
-    `I'm Ashish, a web developer specializing in Next.js. Passionate about creating efficient web applications and anime enthusiast.`
+    `I'm Ashish, a web developer specializing in Next.js. Passionate about creating efficient web applications and 2D enthusiast.`
   const {
     title: _,
     description: __,
@@ -42,7 +42,7 @@ export const createMetadata = (override: Partial<Metadata> = {}): Metadata => {
       'portfolio',
       'developer',
       'blogs',
-      'Rias Gremory',
+      'DxD',
     ],
     openGraph: {
       url,
