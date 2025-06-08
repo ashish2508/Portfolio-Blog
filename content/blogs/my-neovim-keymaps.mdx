@@ -1,0 +1,276 @@
+---
+title: "Custom Neovim Keymaps: Boost Your Editing Efficiency"
+description: A collection of custom Neovim key mappings to streamline your workflow, covering navigation, buffer management, diagnostics, and more.
+tags: ["neovim", "nvim", "keymaps", "editor"]
+---
+
+## Introduction
+
+### What is Neovim?
+
+Neovim is a fork of the Vim text editor, designed to be a highly extensible and modern editor for developers and power users. It builds on Vim's modal editing philosophy while adding support for modern features like a built-in LSP (Language Server Protocol) client, improved plugin architecture, and better performance. Neovim is lightweight, fast, and highly customizable, making it a popular choice for programmers who want to optimize their editing experience.
+
+### Why Customize Neovim Keymaps?
+
+Custom key mappings in Neovim allow you to tailor the editor to your specific workflow, improving productivity and reducing repetitive tasks. By defining shortcuts for common actions—like navigating buffers, managing windows, or handling diagnostics—you can work faster and more efficiently. Neovim's flexibility lets you create keymaps that align with your habits, whether you're managing multiple files, debugging code, or simply navigating text.
+
+Custom keymaps are especially useful for users who want to:
+- Streamline repetitive tasks with intuitive shortcuts.
+- Enhance navigation and window management.
+- Integrate with modern tools like LSP for diagnostics and code navigation.
+- Maintain a consistent editing experience across projects.
+
+## Installation
+
+### Requirements
+
+To use these Neovim keymaps, you'll need the following:
+
+- Neovim (version 0.9 or later) installed on your system. [Download](https://neovim.io/)
+- A working Neovim configuration (e.g., an `init.lua` or `init.vim` file).
+- Optional plugins for enhanced functionality:
+  - `toggleterm.nvim` for terminal toggling.
+  - `auto-session` for session management.
+  - `barbar.nvim` or similar for buffer management.
+- A basic understanding of Neovim configuration and Lua (for `init.lua`) or Vimscript (for `init.vim`).
+
+### Installation Steps
+
+1. **Install Neovim**
+
+   If you haven't installed Neovim yet, you can do so using your package manager. For example, on Arch Linux:
+
+   ```bash
+   sudo pacman -S neovim
+   ```
+
+   On Ubuntu:
+
+   ```bash
+   sudo apt install neovim
+   ```
+
+   Or download the latest release from the [Neovim GitHub releases page](https://github.com/neovim/neovim/releases).
+
+2. **Set Up Your Neovim Configuration**
+
+   Neovim stores its configuration in `~/.config/nvim/`. If you don't already have a configuration file, create one:
+
+   ```bash
+   mkdir -p ~/.config/nvim
+   touch ~/.config/nvim/init.lua
+   ```
+
+3. **Install a Plugin Manager (Optional)**
+
+   To use plugins like `toggleterm.nvim` or `auto-session`, you'll need a plugin manager. A popular choice is `packer.nvim`. Install it by running:
+
+   ```bash
+   git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+   ```
+
+   Then, add the following to your `init.lua` to set up `packer.nvim`:
+
+   ```lua
+   vim.cmd [[packadd packer.nvim]]
+
+   return require('packer').startup(function(use)
+     use 'wbthomason/packer.nvim' -- Packer itself
+     use 'akinsho/toggleterm.nvim' -- For terminal toggling
+     use 'rmagatti/auto-session' -- For session management
+     use 'romgrk/barbar.nvim' -- For buffer management
+     -- Add other plugins as needed
+   end)
+   ```
+
+   Run `:PackerSync` in Neovim to install the plugins.
+
+## Set Up
+
+### Adding Keymaps to Your Configuration
+
+To use the custom keymaps, you'll need to add them to your Neovim configuration file (`init.lua`). Below are the steps to integrate the keymaps.
+
+1. **Define Keymap Options**
+
+   At the top of your `init.lua`, define the keymap options and set the leader key:
+
+   ```lua
+   local keymap = vim.keymap
+   local opts = { noremap = true, silent = true }
+   vim.g.mapleader = " "
+   ```
+
+2. **Add the Keymaps**
+
+   Copy the following keymaps into your `init.lua`. These keymaps are organized by functionality for clarity.
+
+   ```lua
+   -- Navigation and Editing
+   keymap.set("i", "jj", "<ESC>==", opts) -- Exit insert mode with 'jj'
+   keymap.set({ "n", "v" }, "yx", ":%y+<CR>==", opts) -- Copy entire buffer to clipboard
+   keymap.set({ "n", "v" }, "dx", ":%d+<CR>==", opts) -- Delete entire buffer content
+   keymap.set("n", "<M-Down>", ":m .+1<CR>==", opts) -- Move line down (normal)
+   keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", opts) -- Move lines down (visual)
+   keymap.set("n", "<M-Up>", ":m .-2<CR>==", opts) -- Move line up (normal)
+   keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv", opts) -- Move lines up (visual)
+   keymap.set("n", "<C-M-Down>", ":t .<CR>", opts) -- Copy line down (normal)
+   keymap.set("v", "<C-M-Down>", ":t .<CR>", opts) -- Copy lines down (visual)
+   keymap.set("n", "<C-M-Up>", ":t .<CR> .-2<CR>", opts) -- Copy line up (normal)
+   keymap.set("v", "<C-M-Up>", ":t .<CR> '<-2<CR>gv", opts) -- Copy lines up (visual)
+   keymap.set("n", "+", "<C-a>") -- Increment number under cursor
+   keymap.set("n", "-", "<C-x>") -- Decrement number under cursor
+   keymap.set("n", "dw", 'vb"_d') -- Delete word backwards to black hole register
+   keymap.set("n", "<C-a>", "gg<S-v>G") -- Select entire buffer
+
+   -- Folding
+   keymap.set("n", "fo", function() vim.cmd("normal! zO") end, { desc = "Open fold under cursor" }) -- Open fold
+   keymap.set("n", "fc", function() vim.cmd("normal! zC") end, { desc = "Close fold under cursor" }) -- Close fold
+
+   -- Tabs and Windows
+   keymap.set("n", "<C-n>", ":tabedit<CR>", opts) -- Open new tab
+   keymap.set("n", "<C-]>", ":tabnext<CR>", opts) -- Next tab
+   keymap.set("n", "<C-l>", ":tabprev<CR>", opts) -- Previous tab
+   keymap.set("n", "<leader>ss", ":split<Return>", opts) -- Split window horizontally
+   keymap.set("n", "<leader>sv", ":vsplit<Return>", opts) -- Split window vertically
+   keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- Close split
+   keymap.set("n", "sh", "<C-w>h") -- Move to left window
+   keymap.set("n", "sk", "<C-w>k") -- Move to above window
+   keymap.set("n", "sj", "<C-w>j") -- Move to below window
+   keymap.set("n", "sl", "<C-w>l") -- Move to right window
+   keymap.set("n", "<C-w><left>", "<C-w><") -- Resize window left
+   keymap.set("n", "<C-w><right>", "<C-w>>") -- Resize window right
+   keymap.set("n", "<C-w><up>", "<C-w>+") -- Resize window up
+   keymap.set("n", "<C-w><down>", "<C-w>-") -- Resize window down
+
+   -- File and Session Management
+   keymap.set({ "n", "i", "v" }, "<C-q>", "<ESC>:wq<CR>", opts) -- Save and quit
+   keymap.set({ "n", "i" }, "<C-s>", "<ESC>:w<CR>", opts) -- Save file
+   keymap.set("n", "<leader>asr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- Restore session
+   keymap.set("n", "<leader>ass", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- Save session
+
+   -- Diagnostics and Search
+   keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" }) -- Clear search highlights
+   keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" }) -- Previous diagnostic
+   keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" }) -- Next diagnostic
+   keymap.set("n", "<leader>.e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror message" }) -- Show diagnostic error
+   keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" }) -- Open diagnostic quickfix list
+
+   -- Terminal
+   vim.api.nvim_set_keymap("n", "<M-1>", "<cmd>ToggleTerm<CR>", opts) -- Toggle terminal (normal)
+   vim.api.nvim_set_keymap("t", "<M-1>", "<cmd>ToggleTerm<CR>", opts) -- Toggle terminal (terminal)
+
+   -- Movement Training
+   keymap.set({ "n", "v" }, "<Left>", '<cmd>echo "Use h to move!!"<CR>') -- Block left arrow
+   keymap.set({ "n", "v" }, "<Right>", '<cmd>echo "Use l to move!!"<CR>') -- Block right arrow
+   keymap.set({ "n", "v" }, "<Up>", '<cmd>echo "Use k to move!!"<CR>') -- Block up arrow
+   keymap.set({ "n", "v" }, "<Down>", '<cmd>echo "Use j to move!!"<CR>') -- Block down arrow
+
+   -- Variable Renaming
+   keymap.set('n', '<leader>raf', function()
+     local old_name = vim.fn.input("Old variable name: ")
+     local new_name = vim.fn.input("New variable name: ")
+     vim.api.nvim_command('%s/\\<' .. old_name .. '\\>/' .. new_name .. '/g')
+   end, { noremap = true, silent = true, desc = "Rename variable in current file" }) -- Rename variable (file)
+
+   keymap.set('n', '<leader>rap', function()
+     local old_name = vim.fn.input("Old variable name: ")
+     local new_name = vim.fn.input("New variable name: ")
+     local files = vim.fn.systemlist('grep -rl "\\<' .. old_name .. '\\>" .')
+     for _, file in ipairs(files) do
+       vim.api.nvim_command('edit ' .. file)
+       vim.api.nvim_command('%s/\\<' .. old_name .. '\\>/' .. new_name .. '/g')
+       vim.api.nvim_command('write')
+     end
+   end, { noremap = true, silent = true, desc = "Rename variable in whole project" }) -- Rename variable (project)
+
+   -- Buffer Management
+   local map = vim.api.nvim_set_keymap
+   map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts) -- Previous buffer
+   map('n', '<A-.>', '<Cmd>BufferNext<CR>', opts) -- Next buffer
+   map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts) -- Move buffer left
+   map('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts) -- Move buffer right
+   map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts) -- Go to buffer 1
+   map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts) -- Go to buffer 2
+   map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts) -- Go to buffer 3
+   map('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts) -- Go to buffer 4
+   map('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts) -- Go to buffer 5
+   map('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts) -- Go to buffer 6
+   map('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts) -- Go to buffer 7
+   map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts) -- Go to buffer 8
+   map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts) -- Go to buffer 9
+   map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts) -- Go to last buffer
+   map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts) -- Pin/unpin buffer
+   map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts) -- Close buffer
+   map('n', '<C-p>', '<Cmd>BufferPick<CR>', opts) -- Buffer picking mode
+   map('n', '<C-s-p>', '<Cmd>BufferPickDelete<CR>', opts) -- Buffer delete mode
+   map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>', opts) -- Sort by buffer number
+   map('n', '<Space>bn', '<Cmd>BufferOrderByName<CR>', opts) -- Sort by name
+   map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>', opts) -- Sort by directory
+   map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>', opts) -- Sort by language
+   map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>', opts) -- Sort by window number
+
+   -- Enable NERD Font
+   vim.g.have_nerd_font = true
+   ```
+
+3. **Source Your Configuration**
+
+   After adding the keymaps, save your `init.lua` and source it in Neovim to apply the changes:
+
+   ```vim
+   :source ~/.config/nvim/init.lua
+   ```
+
+   Alternatively, restart Neovim to reload the configuration.
+
+:::info
+
+If you encounter errors like "Unknown command" for plugins (e.g., `ToggleTerm` or `SessionRestore`), ensure the required plugins are installed and loaded correctly. Run `:PackerSync` to install any missing plugins.
+
+:::
+
+### Usage
+
+Here’s how to use some of the key features of these mappings:
+
+1. **Navigation and Editing**
+
+   - Press `jj` in insert mode to quickly exit to normal mode and auto-indent.
+   - Use `<C-a>` to select the entire buffer, then copy with `yx` or delete with `dx`.
+   - Move lines with `<M-Down>` and `<M-Up>` in normal mode, or in visual mode to move multiple lines.
+   - Increment or decrement numbers under the cursor with `+` and `-`.
+
+2. **Window and Tab Management**
+
+   - Open a new tab with `<C-n>`, and navigate tabs with `<C-]>` (next) and `<C-l>` (previous).
+   - Split windows with `<leader>ss` (horizontal) or `<leader>sv` (vertical), and close splits with `<leader>sx`.
+   - Navigate between windows using `sh`, `sj`, `sk`, and `sl`.
+   - Resize windows with `<C-w><left>`, `<C-w><right>`, `<C-w><up>`, and `<C-w><down>`.
+
+3. **Diagnostics and Search**
+
+   - Clear search highlights with `<leader>nh`.
+   - Navigate diagnostics with `[d` (previous) and `]d` (next).
+   - Show diagnostic details with `<leader>.e`, or open the quickfix list with `<leader>q`.
+
+4. **Terminal and Sessions**
+
+   - Toggle a terminal with `<M-1>` in both normal and terminal modes.
+   - Save your session with `<leader>ass` and restore it with `<leader>asr`.
+
+5. **Buffer Management**
+
+   - Navigate buffers with `<A-,>` (previous) and `<A-.>` (next).
+   - Jump to a specific buffer with `<A-1>` through `<A-9>`, or the last buffer with `<A-0>`.
+   - Enter buffer picking mode with `<C-p>` to quickly select a buffer.
+
+6. **Variable Renaming**
+
+   - Rename variables in the current file with `<leader>raf`.
+   - Rename variables across the project with `<leader>rap`.
+
+7. **Movement Training**
+
+   - The arrow keys are disabled with helpful reminders to use `h`, `j`, `k`, and `l` for navigation, encouraging better Vim habits.
+
