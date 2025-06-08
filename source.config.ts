@@ -9,7 +9,7 @@ import {
   defineDocs,
   frontmatterSchema,
 } from 'fumadocs-mdx/config'
-import { z } from 'zod'
+import * as z from 'zod'
 
 export const blogs = defineDocs({
   dir: 'content/blogs',
@@ -17,7 +17,6 @@ export const blogs = defineDocs({
     schema: frontmatterSchema.extend({
       description: z.string(),
       tags: z.array(z.string()),
-      published: z.date(),
       image: z.string().optional(),
     }),
   },
@@ -39,8 +38,8 @@ export const projects = defineDocs({
 })
 
 export default defineConfig({
+  lastModifiedTime: 'git',
   mdxOptions: {
-    // MDX options
     remarkPlugins: [
       remarkAdmonition,
       remarkImage,

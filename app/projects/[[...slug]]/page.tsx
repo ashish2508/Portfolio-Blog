@@ -8,6 +8,7 @@ import {
 } from 'fumadocs-ui/page'
 import { ExternalLinkIcon } from 'lucide-react'
 
+import { Giscus } from '@/components/giscus'
 import { GithubIcon } from '@/components/ui/icons'
 import { createMetadata } from '@/lib/metadata'
 import { projectsSource } from '@/lib/source'
@@ -81,6 +82,8 @@ export default async function Page(props: {
             a: createRelativeLink(projectsSource, page),
           }}
         />
+
+        <Giscus />
       </DocsBody>
     </DocsPage>
   )
