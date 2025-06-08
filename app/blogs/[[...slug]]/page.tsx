@@ -8,6 +8,7 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/page'
 
+import { Giscus } from '@/components/giscus'
 import { createMetadata } from '@/lib/metadata'
 import { blogsSource } from '@/lib/source'
 
@@ -16,6 +17,9 @@ export default async function Page(props: {
 }) {
   const params = await props.params
   const page = blogsSource.getPage(params.slug)
+  const lastModified = page.data.lastModified;
+const isoDate = lastModified ? new Date(lastModified).toISOString() : 'N/A';
+
   if (!page) notFound()
 
   const MDXContent = page.data.body
@@ -27,7 +31,7 @@ export default async function Page(props: {
         {page.data.description}
       </DocsDescription>
       <time className="text-fd-muted-foreground text-sm">
-        {page.data.published.toDateString()}
+        {isoDate}
       </time>
       <ul className="flex gap-2">
         {page.data.tags.map((tag) => (
@@ -51,6 +55,8 @@ export default async function Page(props: {
             Tab,
           }}
         />
+
+        {page.url !== '/blogs' && <Giscus />}
       </DocsBody>
     </DocsPage>
   )
