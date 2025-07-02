@@ -88,10 +88,7 @@ export const Footer: React.FC = () => {
           <nav className="flex items-center gap-6">
             <Link href="/sitemap.xml" className="hover:text-fd-foreground">
               Sitemap
-            </Link>
-            <Link href="/api/rss.xml" className="hover:text-fd-foreground">
-              RSS Feed
-            </Link>
+            </Link> 
           </nav>
         </div>
       </div>
