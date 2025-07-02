@@ -30,7 +30,12 @@ export default function RootLayout({
           geistSans.variable,
           geistMono.variable,
         )}
+        style={{
+  backgroundImage:
+    "repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.2) 4px)",
+}}
       >
+
         <RootProvider
           theme={{ defaultTheme: 'dark', disableTransitionOnChange: true }}
         >
