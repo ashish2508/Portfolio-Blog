@@ -17,40 +17,54 @@ export default async function Page(props: {
 }) {
   const params = await props.params
   const page = blogsSource.getPage(params.slug)
-  const lastModified = page.data.lastModified;
-const isoDate = lastModified ? new Date(lastModified).toISOString() : 'N/A';
 
+  
   if (!page) notFound()
+
+  const lastModified = page.data.lastModified
+  const isoDate = lastModified
+    ? new Date(lastModified).toISOString()
+    : undefined
+
+  // ✅ Ensure tags is always an array
+  const tags = Array.isArray(page.data.tags)
+    ? page.data.tags
+    : []
 
   const MDXContent = page.data.body
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
+
       <DocsDescription className="mb-0">
         {page.data.description}
       </DocsDescription>
-      <time className="text-fd-muted-foreground text-sm">
-        {isoDate}
-      </time>
-      <ul className="flex gap-2">
-        {page.data.tags.map((tag) => (
-          <li
-            key={tag}
-            className="bg-fd-primary text-fd-primary-foreground rounded-md px-2 py-1 text-xs"
-          >
-            {tag}
-          </li>
-        ))}
-      </ul>
+
+      {isoDate && (
+        <time className="text-fd-muted-foreground text-sm">
+          {isoDate}
+        </time>
+      )}
+
+      {tags.length > 0 && (
+        <ul className="flex gap-2">
+          {tags.map((tag) => (
+            <li
+              key={tag}
+              className="bg-fd-primary text-fd-primary-foreground rounded-md px-2 py-1 text-xs"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <DocsBody>
         <MDXContent
           components={{
             ...defaultMdxComponents,
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(blogsSource, page),
-            // you can add other MDX components here
             Tabs,
             Tab,
           }}
@@ -71,12 +85,17 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params
   const page = blogsSource.getPage(params.slug)
+
   if (!page) notFound()
+
+  const tags = Array.isArray(page.data.tags)
+    ? page.data.tags
+    : []
 
   return createMetadata({
     title: page.data.title,
     description: page.data.description,
-    keywords: page.data.tags,
+    keywords: tags,
     openGraph: {
       url: page.url,
       images: {
